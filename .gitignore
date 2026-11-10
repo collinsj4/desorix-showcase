@@ -1,0 +1,13 @@
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Never commit secrets or local config
+.env
+.env.*
+*.pem
+*.key
