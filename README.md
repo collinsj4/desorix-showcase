@@ -1,4 +1,4 @@
-# Desorix — self-hosted WhatsApp Business platform
+# Desorix: self-hosted WhatsApp Business platform
 
 ## What it is
 
@@ -8,7 +8,7 @@ I designed and built all of it: the application, a separate licence and update s
 
 |  |  |
 | --- | --- |
-| Live demo | [demo.desorix.com](https://demo.desorix.com) — a seeded tea-shop account, resets nightly |
+| Live demo | [demo.desorix.com](https://demo.desorix.com). A seeded tea-shop account that resets nightly |
 | Product site | [desorix.com](https://desorix.com) |
 | Documentation | [docs.desorix.com](https://docs.desorix.com) |
 | Licence server | [api.desorix.com](https://api.desorix.com) |
@@ -17,7 +17,7 @@ I designed and built all of it: the application, a separate licence and update s
 
 *The shared inbox, with the website page and campaign the chat started from shown above the first message.*
 
-The source is private — it's a commercial product. The demo is the best way to see the work; everything in it is the real application.
+The source is private, since it's a commercial product. The demo is the best way to see the work; everything in it is the real application.
 
 ## Architecture
 
@@ -119,11 +119,11 @@ The product is in private beta and not yet on public sale, so this section descr
 
 ## Three problems, and how they went
 
-**A help assistant that answered confidently from the wrong page.** The first version retrieved documentation by keyword and let the model answer from whatever came back. Asked "how do I import contacts from a CSV", it quoted a page introduction and dropped the actual steps. I measured it properly rather than fixing the one case: of 22 buyer-phrased questions, only 10 retrieved the right section. The causes were vague headings that shared no words with how a buyer asks, internal developer pages crowding the results, and no relevance floor. Renaming 23 headings and excluding the architecture page took it to 19 of 22, and a new prompt rule — a section that merely mentions a topic is not an answer to it — stopped the remaining misses becoming confident wrong answers. Then I wrote ten held-out questions and refused to tune against them: 6 clean, 2 thin, 2 honest "couldn't find this", no wrong answers.
+**A help assistant that answered confidently from the wrong page.** The first version retrieved documentation by keyword and let the model answer from whatever came back. Asked "how do I import contacts from a CSV", it quoted a page introduction and dropped the actual steps. I measured it properly rather than fixing the one case: of 22 buyer-phrased questions, only 10 retrieved the right section. The causes were vague headings that shared no words with how a buyer asks, internal developer pages crowding the results, and no relevance floor. Renaming 23 headings and excluding the architecture page took it to 19 of 22, and a new prompt rule, that a section which merely mentions a topic is not an answer to it, stopped the remaining misses becoming confident wrong answers. Then I wrote ten held-out questions and refused to tune against them: 6 clean, 2 thin, 2 honest "couldn't find this", no wrong answers.
 
 **A spend cap that wasn't a cap.** The AI spend limit was advertised as a hard ceiling. It stopped auto-replies and nothing else. Manual testing found drafts sailing past it; investigating further found the try-it box and document embedding doing the same. Every path that spends now checks first. The lesson I took: an advertised guarantee needs a test per path, not per feature.
 
-**A production server with someone else's ransom note on it.** During infrastructure work I found an unexplained compromise on the box from four months earlier — encrypted files in root's home, a ransom page served at the apex domain because no vhost existed to catch it. Nothing of the application was touched and the attack had failed, but it changed what I did next: isolated PHP-FPM pools per service, a vhost for every hostname in DNS so nothing falls through to a default, credentials rotated out of plaintext crontabs, and a documented rule that every DNS name gets its own certificate.
+**A production server with someone else's ransom note on it.** During infrastructure work I found an unexplained compromise on the box from four months earlier: encrypted files in root's home, a ransom page served at the apex domain because no vhost existed to catch it. Nothing of the application was touched and the attack had failed, but it changed what I did next: isolated PHP-FPM pools per service, a vhost for every hostname in DNS so nothing falls through to a default, credentials rotated out of plaintext crontabs, and a documented rule that every DNS name gets its own certificate.
 
 ## Scope
 
