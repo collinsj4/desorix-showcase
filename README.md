@@ -105,13 +105,13 @@ Four public services, all on one Ubuntu VPS behind nginx, each isolated in its o
 
 ## Licensing, payments, distribution
 
-The original plan was to sell on CodeCanyon. Envato paused new author accounts partway through the build, so the whole commercial layer had to be rebuilt around selling direct. That turned out better: no 50% marketplace cut, and I own the buyer relationship.
+The product is in private beta and not yet on public sale, so this section describes what is built and tested rather than what is in production use.
 
 **Licence server.** Issues keys, records activations per domain, serves signed release downloads behind a short-lived link, and logs every issue, resend, reissue and download with the admin and IP behind it. A revoked or refunded licence stops receiving updates; the buyer's install keeps working, which is the right trade for self-hosted software.
 
-**Payments.** Paystack, taking cards and M-Pesa. The webhook verifies the signature, then confirms the payment against Paystack's own API rather than trusting the payload, so a forged body claiming the higher price cannot mint the higher licence. Events are recorded with a uniqueness constraint so a replayed delivery issues one licence and one email. Anything that doesn't match a known price waits in a queue for a human with an alert, rather than being guessed at.
+**Payments.** A Paystack integration for cards and M-Pesa. The webhook verifies the signature, then confirms the payment against Paystack's own API rather than trusting the payload, so a forged body claiming the higher price cannot mint the higher licence. Events are recorded with a uniqueness constraint so a replayed delivery issues one licence and one email. Anything that doesn't match a known price waits in a queue for a human with an alert, rather than being guessed at.
 
-**Transactional email** through Resend, with SPF, DKIM and DMARC on the domain. Scores 9.5 on mail-tester, which matters when the email contains the key someone just paid for.
+**Transactional email** through Resend, with SPF, DKIM and DMARC on the domain. Scores 9.5 on mail-tester, which matters when the message carries a buyer's licence key.
 
 **Marketplace redemption codes** are built for later: campaigns, bulk code generation, CSV export, a public redeem page, per-campaign tracking of issued, redeemed and refunded.
 
